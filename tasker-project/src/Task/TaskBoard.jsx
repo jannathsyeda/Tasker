@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import TaskAction from "./TaskAction";
 import TaskList from "./TaskList";
+import AddModal from "../AddModal";
 
 export default function TaskBoard() {
     const  defaultTasks={
@@ -14,6 +15,7 @@ export default function TaskBoard() {
     }
 
     const [ tasks , setTasks ]=useState([defaultTasks])
+    const [ showModal , setShowModal]=useState(false);
 
     function addHandleTask(){
 
@@ -27,8 +29,9 @@ export default function TaskBoard() {
           <SearchBar />
         </div>
 
+{showModal && <AddModal/> }
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-          <TaskAction addHandleTask={addHandleTask}/>
+          <TaskAction addHandleTask={()=>setShowModal(true)}/>
 
           <TaskList tasks={tasks}/>
 
