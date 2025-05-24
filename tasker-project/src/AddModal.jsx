@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
-export default function AddModal({onSave }) {
+export default function AddModal({onSave ,taskToUpdate}) {
 
-    const [task, setTask]=useState({
+    const [task, setTask]=useState(taskToUpdate ||{
         'id': crypto.randomUUID(),
         'title': '',
         'description':'',
@@ -24,6 +24,10 @@ export default function AddModal({onSave }) {
         })
 
     }
+
+    const [isAdd, setIsAdd]=useState(Object.is(taskToUpdate,null));
+
+
    
 
   return (
@@ -36,7 +40,7 @@ export default function AddModal({onSave }) {
       <h2
         className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]"
       >
-        Add New Task
+          {isAdd ? "Add New Task" : "Edit new task"}
       </h2>
 
      
@@ -103,7 +107,7 @@ export default function AddModal({onSave }) {
         <button
           type="submit"
           className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
-          onClick={()=>onSave(task)}
+          onClick={()=>onSave(task, isAdd)}
         >
 Save        </button>
       </div>
