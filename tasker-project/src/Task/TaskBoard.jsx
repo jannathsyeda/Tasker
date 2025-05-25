@@ -20,7 +20,7 @@ export default function TaskBoard() {
   const [showModal, setShowModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
 
-  function addHandleTask(newTask,isAdd) {
+  function addEditHandleTask(newTask,isAdd) {
 
     if(isAdd){
      setTasks([...tasks, newTask]);
@@ -46,6 +46,13 @@ export default function TaskBoard() {
 
   }
 
+  function closeHandleClick(){
+    setTaskToUpdate(false)
+
+    setShowModal(false)
+
+  }
+
   return (
     <section className="mb-20" id="tasks">
       <div className="container">
@@ -53,7 +60,7 @@ export default function TaskBoard() {
           <SearchBar />
         </div>
 
-        {showModal && <AddModal onSave={addHandleTask} taskToUpdate={taskToUpdate} />}
+        {showModal && <AddModal onSave={addEditHandleTask} taskToUpdate={taskToUpdate} onHandleClose={closeHandleClick}/>}
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskAction addHandleTaskModal={() => setShowModal(true)} />
 

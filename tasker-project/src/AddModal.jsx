@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function AddModal({onSave ,taskToUpdate}) {
+export default function AddModal({onSave ,taskToUpdate, onHandleClose}) {
 
     const [task, setTask]=useState(taskToUpdate ||{
         'id': crypto.randomUUID(),
@@ -110,6 +110,14 @@ export default function AddModal({onSave ,taskToUpdate}) {
           onClick={()=>onSave(task, isAdd)}
         >
 Save        </button>
+
+<button
+         
+          className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
+          onClick={onHandleClose}
+        >
+close        </button>
+
       </div>
     </form>
     </>
