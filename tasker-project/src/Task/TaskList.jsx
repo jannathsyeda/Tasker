@@ -1,7 +1,7 @@
 import React from "react";
 import { FaRegStar } from "react-icons/fa";
 
-export default function TaskList({ tasks, OnEdit, onTaskDelete}) {
+export default function TaskList({ tasks, OnEdit, onTaskDelete, handleIsFav}) {
   return (
     <div className="overflow-auto">
       <table className="table-fixed overflow-auto xl:w-full">
@@ -29,11 +29,12 @@ export default function TaskList({ tasks, OnEdit, onTaskDelete}) {
           {tasks.map((task) => (
             <tr className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
               <td>
+                <button onClick={()=>{handleIsFav(task.id)}}>
                 {task.isFavorite ? (
                   <FaRegStar color="yellow" />
                 ) : (
                   <FaRegStar color="gray" />
-                )}
+                )}</button>
               </td>
 
               <td>{task.title}</td>
