@@ -74,16 +74,21 @@ export default function TaskBoard() {
 
      setTasks(newTask)
      
-
-
-
   }
 
+  function onSearchTerm(searchItem){
+         console.log("hi")
+    const filtered=tasks.filter(task=>
+      task.title.toLowerCase().includes(searchItem.toLowerCase())
+
+    )
+    setTasks([...filtered])
+  }
   return (
     <section className="mb-20" id="tasks">
       <div className="container">
         <div className="p-2 flex justify-end">
-          <SearchBar />
+          <SearchBar onSearchTerm={onSearchTerm} />
         </div>
 
         {showModal && <AddModal onSave={addEditHandleTask} taskToUpdate={taskToUpdate} onHandleClose={closeHandleClick}/>}
