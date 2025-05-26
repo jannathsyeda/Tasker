@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import TaskAction from "./TaskAction";
 import TaskList from "./TaskList";
 import AddModal from "../AddModal";
+import NoTaskFound from "./NoTaskFound";
 
 export default function TaskBoard() {
   const defaultTasks = {
@@ -20,69 +21,59 @@ export default function TaskBoard() {
   const [showModal, setShowModal] = useState(false);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
 
-  function addEditHandleTask(newTask,isAdd) {
-
-    if(isAdd){
-     setTasks([...tasks, newTask]);
-     setShowModal(false); }
-     else{
+  function addEditHandleTask(newTask, isAdd) {
+    if (isAdd) {
+      setTasks([...tasks, newTask]);
+      setShowModal(false);
+    } else {
       setTasks(
-      tasks.map(task=>{
-        if(task.id === newTask.id){
-          return newTask
-        }
-        return task
-      }))
-      
-     }
-    
-   
-    
+        tasks.map((task) => {
+          if (task.id === newTask.id) {
+            return newTask;
+          }
+          return task;
+        })
+      );
+    }
   }
 
   function editHandleTask(task) {
     setTaskToUpdate(task);
     setShowModal(true);
-
   }
 
-  function closeHandleClick(){
-    setTaskToUpdate(false)
+  function closeHandleClick() {
+    setTaskToUpdate(false);
 
-    setShowModal(false)
-
+    setShowModal(false);
   }
-  function deleteTaskHandle(taskId){
-    const taskDelete=tasks.filter(task=>task.id !== taskId)
-    setTasks(taskDelete)
-
+  function deleteTaskHandle(taskId) {
+    const taskDelete = tasks.filter((task) => task.id !== taskId);
+    setTasks(taskDelete);
   }
 
-  function deleteAllHandleTask(){
-    console.log("hi")
+  function deleteAllHandleTask() {
+    console.log("hi");
     tasks.length = 0;
-    setTasks([...tasks])
+    setTasks([...tasks]);
   }
 
-  function handleIsFav(taskId){
+  function handleIsFav(taskId) {
+    const taskIndex = tasks.findIndex((task) => task.id === taskId);
 
-    const taskIndex=tasks.findIndex(task=>task.id === taskId)
+    const newTask = [...tasks];
 
-    const newTask=[...tasks];
+    newTask[taskIndex].isFavorite = !newTask[taskIndex].isFavorite;
 
-     newTask[taskIndex].isFavorite = !newTask[taskIndex].isFavorite;
-
-     setTasks(newTask)
-     
+    setTasks(newTask);
   }
 
-  function onSearchTerm(searchItem){
-         console.log("hi")
-    const filtered=tasks.filter(task=>
+  function onSearchTerm(searchItem) {
+    console.log("hi");
+    const filtered = tasks.filter((task) =>
       task.title.toLowerCase().includes(searchItem.toLowerCase())
-
-    )
-    setTasks([...filtered])
+    );
+    setTasks([...filtered]);
   }
   return (
     <section className="mb-20" id="tasks">
@@ -91,11 +82,25 @@ export default function TaskBoard() {
           <SearchBar onSearchTerm={onSearchTerm} />
         </div>
 
-        {showModal && <AddModal onSave={addEditHandleTask} taskToUpdate={taskToUpdate} onHandleClose={closeHandleClick}/>}
+        {showModal && (
+          <AddModal
+            onSave={addEditHandleTask}
+            taskToUpdate={taskToUpdate}
+            onHandleClose={closeHandleClick}
+          />
+        )}
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-          <TaskAction deleteTaskHandle={deleteAllHandleTask} addHandleTaskModal={() => setShowModal(true)}  />
-
-          <TaskList tasks={tasks} OnEdit={editHandleTask} onTaskDelete={deleteTaskHandle} handleIsFav={handleIsFav} />
+          <TaskAction
+            deleteTaskHandle={deleteAllHandleTask}
+            addHandleTaskModal={() => setShowModal(true)}
+          />
+{tasks.length > 0 ? (   <TaskList
+            tasks={tasks}
+            OnEdit={editHandleTask}
+            onTaskDelete={deleteTaskHandle}
+            handleIsFav={handleIsFav}
+          />):( <NoTaskFound/> )}
+       
         </div>
       </div>
     </section>
